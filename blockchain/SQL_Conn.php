@@ -20,28 +20,22 @@ $obj = [
   "hash" => sha1("Kaustubh Murumkar".'1'.'Wheat'.'10'.'100')
 ];
 
+$sqlBuyer = "INSERT INTO `BuyerData` (`BName`, `Id`, `Commodity`, `Qty`, `Pri`, `Hash`, `uniqueId`) VALUES (`{buyer}`, `{ID}`, `{comm}`, `{Qty}`, `{price}`, `{Hash}`, `{UID}`)";
 
-$sql = "SELECT * FROM `BuyerData`";
-$result = $conn->query($sql);
-// echo strlen($results);
-if ($result->num_rows > 0) {
-    // output data of each row
-    // $result = mysqli_query($conn, $sql);
-    echo "<pre>";
-    while($row = $result->fetch_assoc()) {
-        // print_r($row);
-        foreach ($row as $key) {
-          echo $key."<br>";
-        }
-    }
-    echo "</pre>";
-} else {
-    echo "0 results";
+$sqlFarmer = "INSERT INTO FarmerData (FName, Id, Commodity, Qty, Price, Hash, uniqueId) VALUES ('Vedant', 3, 'asdf', 45, 450, 'qweertyuui', 'UID')";
+
+// $sql = "INSERT INTO `BC_DB`.`FarmerData`(`FName`, `Id`, `Commodity`, `Qty`, `Pri`, `Hash`, `uniqueId`) VALUES (`Vedant`, 2, `Rice`, 20, 200, `asdad`, `234`);";
+$sql = "SELECT * from FarmerData";
+// / Create connection
+$conn = mysqli_connect(SERVER, username, password, BC_DB);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
-$sql2 = "INSERT INTO `BuyerData` (`BName`, `Id`, `Commodity`, `Qty`, `Pri`, `Hash`) VALUES ($obj->name, $obj->id, $obj->comm, $obj->qty, $obj->price, $obj->hash)";
-echo $conn->query($sql);
 
-
-$conn->close();
-
+if ($conn->query($sqlFarmer) === TRUE) {
+    echo "New record created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+}
  ?>

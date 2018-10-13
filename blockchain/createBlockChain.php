@@ -10,7 +10,7 @@ class Block
     $this->data = $arguments;
   }
   function writeToDB() {
-    
+
   }
 }
 
