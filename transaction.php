@@ -1,44 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta content="text/html">
-  <title>Transaction</title>
-  </head>
-<body  bgcolor="#9ce575">
-<center>
-    <h1>Transaction
+<meta content="text/html">
+<title>Transaction</title>
+<link rel="stylesheet" href="style.c">
+</head>
 <?php
 
+define("SERVER", "localhost");
+define("username", "root");
+define("password", "austubhK16");
+define("BC_DB", "FarmCraft");
+// include 'blockchain/SQL_Conn.php';
+$conn = mysqli_connect(SERVER, username, password, BC_DB);
+// Check connection
+if (!$conn) {
+die("Connection failed: " . mysqli_connect_error());
+}
+
 if(isset($_REQUEST['submit'])) {
-  $utype = $_REQUEST['uType'];
-  $id    = $_REQUEST['uid'];
-  $uname = $_REQUEST['uname'];
-  $comm  = $_REQUEST['comm'];
-  $qty   = $_REQUEST['qty'];
-  $price = $_REQUEST['price'];
+echo $_REQUEST['submit'];
+$utype = $_REQUEST['uType'];
+$uname = $_REQUEST['uname'];
+$id = $_REQUEST['uid'];
+$comm = $_REQUEST['comm'];
+$qty = $_REQUEST['qty'];
+$price = $_REQUEST['price'];
+$uid = 'trial';
+echo $uid."<br>";
+settype($id, "int");
+settype($qty, "int");
+settype($price, "int");
+$hash = sha1($comm.$qty.$price.$uid);
+$sqlFarmer = "INSERT INTO FarmerData(FName, Id, Commodity, Qty, Price, Hash, uniqueId) VALUES ('$uname', '$id', '$comm', '$qty', '$price', '$hash', '$uid');";
+$sqlBuyer = "INSERT INTO BuyerData (BName, Id, Commodity, Qty, Price, Hash, uniqueId) VALUES ('$uname', '$id', '$comm', '$qty', '$price', '$hash', '$uid')";
 
-  // str_replace("{farmer}", $uname, $sqlFarmer);
-  }
- ?>
- </h1>
+if($utype === "farmer")
+$sql = $sqlFarmer;
+else $sql = $sqlBuyer;
+echo $sql;
+}
+?>
+<body  bgcolor="#9ce575">
+<h1>Transaction</h1>
 <!-- <form action="<?php #echo $_SERVER['PHP_SELF'];?>" method="post"> -->
-
- <form action="http://localhost/FarmCraft/blockchain/addTransaction.php" method="post">
-  User Type :-
-  <select name="uType">
-    <option value="farmer">Farmer</option>
-    <option value="buyer">Buyer</option>
-  </select>
-  <input type="hidden" name="ASSOC">
-  <pre>
-  User ID:   <input type="text" name="uid"><br><br>
-  User name: <input type="text" name="uname"><br><br>
-  Comodity:  <input type="text" name="comm"><br><br>
-  Quantity:  <input type="text" name="qty"><br><br>
-  Price:     <input type="text" name="price"><br><br>
-  </pre>
-  <input type="submit" value="go">
+<div class="form">
+<form action="http://localhost<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+User Type :-
+<select name="uType">
+<option value="farmer">Farmer</option>
+<option value="buyer">Buyer</option>
+</select>
+<input type="hidden" name="ASSOC">
+User ID:   <input type="text" name="uid"><br><br>
+User name: <input type="text" name="uname"><br><br>
+Comodity:  <input type="text" name="comm"><br><br>
+Quantity:  <input type="text" name="qty"><br><br>
+Price:     <input type="text" name="price"><br><br>
+<input type="submit" name="submit" value="go">
 </form>
-</center>
+</div>
 </body>
 </html>
