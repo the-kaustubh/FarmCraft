@@ -1,7 +1,7 @@
 <?php
 define("SERVER", "localhost");
 define("username", "root");
-define("password", "austubhK16");
+define("password", "root");
 define("BC_DB", "FarmCraft");
 // include 'createBlockChain.php';
 // # Create connection
