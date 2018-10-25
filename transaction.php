@@ -9,7 +9,7 @@
 
 define("SERVER", "localhost");
 define("username", "root");
-define("password", "austubhK16");
+define("password", "*******");
 define("BC_DB", "FarmCraft");
 // include 'blockchain/SQL_Conn.php';
 $conn = mysqli_connect(SERVER, username, password, BC_DB);
